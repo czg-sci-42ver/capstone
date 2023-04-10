@@ -605,7 +605,7 @@ class CsInsn(object):
         if self._cs._diet:
             # Diet engine cannot provide @mnemonic.
             raise CsError(CS_ERR_DIET)
-
+        # print("raw ",self._raw.mnemonic)
         return self._raw.mnemonic.decode('ascii')
 
     # return instruction's operands (in string).
@@ -614,8 +614,8 @@ class CsInsn(object):
         if self._cs._diet:
             # Diet engine cannot provide @op_str.
             raise CsError(CS_ERR_DIET)
-
-        return self._raw.op_str.decode('ascii')
+        # print("op_str ",type(self._raw.op_str))
+        return self._raw.op_str.decode('ascii').replace(' ','')
 
     # return list of all implicit registers being read.
     @property
@@ -1108,6 +1108,7 @@ class Cs(object):
         if res > 0:
             try:
                 for i in range(res):
+                    # print("yield ",CsInsn(self, all_insn[i]))
                     yield CsInsn(self, all_insn[i])
             finally:
                 _cs.cs_free(all_insn, res)
